@@ -1,0 +1,601 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #000;
+  font-family: Arial, sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 20px 40px 10px;
+  background-color: black;
+  position: relative;
+  gap: 20px;
+}
+
+.header-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.logo-left {
+  height: 105px;
+}
+
+.nav {
+  display: flex;
+  gap: 40px;
+  padding-bottom: 0;
+}
+
+.nav a {
+  display: inline-block;
+  position: relative;
+}
+
+.nav a img {
+  height: 34.5px;
+  transition: transform 0.2s;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 3px;
+  background-color: #FFD700;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+.nav a:hover img {
+  transform: scale(1.05);
+}
+
+.pfp-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.pfp-link img {
+  height: 67.5px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.pfp-link:hover img {
+  transform: scale(1.05);
+}
+
+.dropdown {
+  position: absolute;
+  top: 80px;
+  right: 0;
+  background-color: #f4c644;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+  width: 120px;
+  text-align: center;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top center;
+  pointer-events: none;
+  transition: transform 0.3s, opacity 0.3s;
+  z-index: 999;
+}
+
+.pfp-wrapper:hover .dropdown {
+  opacity: 1;
+  transform: scaleY(1);
+  pointer-events: auto;
+}
+
+.dropdown a {
+  display: block;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.dropdown button.logout {
+  background-color: #d14e4e;
+  color: white;
+  font-weight: bold;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 16px;
+  margin-top: 10px;
+  border: none;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+
+}
+
+.dropdown button.logout:hover {
+  background-color: #b73838;
+}
+
+.welcome {
+  padding: 15px 40px 5px;
+  font-style: italic;
+  font-size: 22px;
+}
+
+
+.Courses{
+  padding: 15px 40px 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-style: italic;
+  font-size: 22px;
+}
+
+.course-container{
+  padding: 15px 0 15px 30px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.course-item{
+  padding: 15px 0 15px 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #FFC300;
+  border-radius: 100px;
+  text-decoration: none;
+  color: Black;
+  transition: background-color 0.2s ease;
+
+
+}
+
+.course-item .delete{
+  align-content: flex-end;
+  transition: filter 0.2s ease;
+  margin-left: auto;
+
+}
+
+.course-item .delete:hover{
+  filter: brightness(85%);
+  transform: scale(0.95);
+}
+
+.course-item:hover{
+  background-color: #FFD60A;
+  transform: scale(1.05)
+}
+
+.course-info{
+  padding-left: 40px
+}
+
+.additional-info{
+  padding-left: 40px
+}
+
+select[name = "course_instructor"]{
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+select[name = "course_section"]{
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+
+
+
+.popup-checkbox:not(:checked) ~ .popup-screen {
+  display: none;
+}
+
+.popup-content .sections{
+  font-size: 20px;
+  color: #FFD700;
+  font-weight: bold;
+
+}
+
+select[name = "teacher"]{
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+
+}
+select[name = "day1"]{
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+
+}
+
+select[name = "day2"]{
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+
+}
+
+input[type="time"] {
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+
+.section-box {
+    background-color: #FFC300;
+    color: #000000;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 20px;
+    max-width: 90%;
+    transition: background-color 0.2s ease;
+    display: inline-block;
+}
+.section-box:hover {
+    background-color: #004B87;
+    transform: scale(1.05)
+
+}
+
+.sections-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+input[type="text"] {
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+
+select[name = "semester"]{
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+
+}
+
+.popup-screen {
+  outline: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  outline: none;
+  background: #2e2e2e;
+  color: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  width: 420px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  position: relative;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-content h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #FFD700;
+}
+
+.popup-content input[type="text"] {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.popup-content button[type="submit"] {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #004B87;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-content button[type="submit"]:hover {
+  background-color: #FFD700;
+  color: black;
+}
+
+.close-popup {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  transition: color 0.2s;
+}
+
+.close-popup:hover {
+  color: #FFD700;
+}
+
+.popup-button {
+  padding: 10px 20px;
+  font-size: 12px;
+  background-color: #004B87;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-button:hover {
+  background-color: #FFD700;
+  transform: scale(1.05);
+}
+
+.Sections button.popup{
+	text-align: right;
+	margin: 20px 0;
+	padding-right: 40px
+
+}
+
+.Sections{
+  margin-bottom: 20px;
+}
+
+
+
+.Sections button.popup{
+  padding: 10px 20px;
+  font-size: 12px;
+  background-color: #004B87;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-changes button{
+  padding: 10px 20px;
+  font-size: 12px;
+  background-color: #004B87;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-changes button:hover{
+  background-color: #FFD700;
+  transform: scale(1.05);
+}
+
+
+.back-button button{
+  padding: 10px 20px;
+  font-size: 12px;
+  background-color: #004B87;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button button:hover{
+  background-color: #FFD700;
+  transform: scale(1.05);
+}
+
+.Sections button.popup:hover{
+	background-color: #FFD700;
+	transform: scale(1.05);
+}
+
+
+.Courses button.popup{
+	text-align: right;
+	margin: 20px 0;
+	padding-right: 40px
+
+}
+
+.Courses button.popup{
+  padding: 10px 20px;
+  font-size: 12px;
+  background-color: #004B87;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Courses button.popup:hover{
+	background-color: #FFD700;
+	transform: scale(1.05);
+}
+
+.divider {
+  height: 1px;
+  background-color: #555;
+  margin: 0 40px 20px;
+}
+
+.main-container {
+  background-color: #141414;
+  border-radius: 40px;
+  padding: 30px 40px;
+  margin: 0 40px 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.main-container h3 {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.update-item {
+  background-color: #3f3f3f;
+  border-radius: 40px;
+  padding: 15px 25px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.update-item strong {
+  font-weight: bold;
+  color: white;
+}
+
+footer {
+  background-color: #f4c644;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer-links h4 {
+  margin: 0 0 5px;
+  color: black;
+  font-size: 16px;
+}
+
+.footer-links a {
+  font-style: italic;
+  text-decoration: underline;
+  color: #000;
+  font-size: 14px;
+}
+
+.footer-logo {
+  height: 82.5px;
+}

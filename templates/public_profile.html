@@ -1,0 +1,19 @@
+<!-- public_profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Profile</title>
+</head>
+<body>
+    <h1>Public Profile</h1>
+
+    {% if profile %}
+        <h2>{{ profile.user.full_name }}</h2>
+        <p>Bio: {{ profile.bio }}</p>
+    {% else %}
+        <p>Profile not found.</p>
+    {% endif %}
+</body>
+</html>

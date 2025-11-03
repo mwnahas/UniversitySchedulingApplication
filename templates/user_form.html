@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% if object %}Edit Profile{% else %}Create Profile{% endif %}</title>
+  <link rel="stylesheet" href="{% static 'Style.css' %}">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="header-left">
+        <img src="{% static 'UWM logo.png' %}" alt="UWM TA Scheduler" class="logo-left" />
+        <nav class="nav">
+          <a href="{% url 'home' %}"><img src="{% static 'Home.png' %}" alt="Home" /></a>
+          <a href="{% url 'user-list' %}"><img src="{% static 'Profiles.png' %}" alt="Profiles" /></a>
+          <a href="#"><img src="{% static 'Courses.png' %}" alt="Courses" /></a>
+        </nav>
+      </div>
+
+      <div class="pfp-wrapper">
+        <a href="#" class="pfp-link">
+          <img src="{% static 'pfp.png' %}" alt="Profile Picture" />
+        </a>
+        <div class="dropdown">
+          <a href="#">New Notification</a>
+          <a href="#">Edit My Profile</a>
+          <a href="{% url 'login' %}" class="logout">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="welcome">{% if object %}Edit Profile{% else %}Create Profile{% endif %}</div>
+    <div class="divider"></div>
+
+    <div class="main-container"
+         style="flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         background-color: black;
+         ">
+      <div style="
+        background-color: #1a1a1a;
+        border-radius: 40px;
+        padding: 40px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 800px;
+        min-height: 300px;
+        position: relative;
+      ">
+
+        <img src="{% static 'UWM_wavy.png' %}" alt="UWM Logo"
+             style="position: absolute;
+             top: 20px;
+             right: 20px;
+             height: 80px;
+            ">
+        <img src="{% static 'new_pfp.png' %}" alt="Avatar"
+             style="height: 160px;
+             margin-right: 40px;
+            ">
+        <form method="post"
+              style="flex-grow: 1;
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+              padding-right: 20px;
+            ">
+          {% csrf_token %}
+
+          <label>
+            <strong>Name</strong><br>
+            {{ form.full_name }}
+          </label>
+          <label>
+            <strong>Email</strong><br>
+            {{ form.email }}
+          </label>
+          <label>
+            <strong>Password</strong><br>
+            {{ form.password }}
+          </label>
+          <label>
+            <strong>Role</strong><br>
+            {{ form.role }}
+          </label>
+
+            <label>
+                <strong>Bio</strong><br>
+             {{ profile_form.bio }}
+             </label>
+
+            <div style="position: absolute; bottom: 30px; right: 30px; display: flex; gap: 15px;">
+
+          <div style="position: absolute; bottom: 30px; right: 30px; display: flex; gap: 15px;">
+            <a href="{% url 'user-list' %}">
+              <button type="button"
+                      style="background-color: #f4c430;
+                      font-weight: bold;
+                      padding: 12px 24px;
+                      font-size: 14px;
+                      border-radius: 20px;
+                      border: none;
+                      cursor: pointer;
+                    ">
+                Cancel
+              </button>
+            </a>
+            <button type="submit"
+                    style="background-color: #28a745;
+                    color: white;
+                    font-weight: bold;
+                    padding: 12px 24px;
+                    font-size: 14px;
+                    border-radius: 20px;
+                    border: none;
+                    cursor: pointer;
+                   ">
+              {% if object %}Save Changes{% else %}Create{% endif %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <h4><strong>Services</strong></h4>
+      <a href="#">UWM.edu</a>
+      <a href="#">PAWS</a>
+      <a href="#">PanthersConnect</a>
+    </div>
+    <img src="{% static 'Seal.png' %}" alt="UWM Seal" class="footer-logo" />
+  </footer>
+</body>
+</html>

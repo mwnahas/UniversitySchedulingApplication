@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Milwaukee TA Scheduler</title>
+    <link rel="stylesheet" href="{% static 'Style.css' %}">
+</head>
+
+<body>
+<main>
+    <header>
+        <div class="header-left">
+            <img src="{% static 'UWM logo.png' %}" alt="UWM TA Scheduler" class="logo-left"/>
+            <nav class="nav">
+                <a href="Home.html"><img src="{% static 'Home.png' %}" alt="Home"/></a>
+                <a href="Profiles.html"><img src="{% static 'Profiles.png' %}" alt="Profiles"/></a>
+                <a href="Courses.html"><img src="{% static 'Courses.png' %}" alt="Courses"/></a>
+            </nav>
+        </div>
+
+        <div class="pfp-wrapper">
+            <a href="#" class="pfp-link">
+                <img src="{% static 'pfp.png' %}" alt="Profile Picture"/>
+            </a>
+            <div class="dropdown">
+                <a href="https://outlook.live.com/mail/0/">New Notification</a>
+                <a href="EditMyProfile.html">Edit My Profile</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="logout">Logout</button>
+
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="Courses">
+        Courses
+        {% if user.role == 'admin' %}
+            <label for="popup-toggle" class="popup-button">Add Courses</label>
+        {% endif %}
+    </div>
+
+
+    <input type="checkbox" id="popup-toggle" class="popup-checkbox" hidden/>
+
+    <div class="popup-screen">
+        <div class="popup-content">
+            <label for="popup-toggle" class="close-popup">&times;</label>
+            <h2>Add a Course</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label>
+                    <input type="text" name="course_name" placeholder="Course Name" required/>
+                </label>
+                <label>
+                    <input type="text" name="year" placeholder="Course Year" required/>
+                </label>
+                <label>
+                    <select name="semester" required>
+                        <option value="" disabled selected>Select Semester</option>
+                        {% for value, display in SEMESTER_CHOICES %}
+                            <option value="{{ value }}">{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="divider"></div>
+
+
+    <section class="main-container">
+        <div class="courses-list">
+            {% for course in courses %}
+                <div class="course-container">
+                    <a href="{% url 'course_detail' course.id %}" class="course-item">
+                        <div>
+                            <h2>{{ course.courseName }}</h2>
+                            {% if user.role == 'admin' %}
+                            <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                    <div class="delete">
+                                    <input type="hidden" name="delete_course_id" value="{{ course.id }}">
+                                    <button type="submit"><img src="{% static 'trash.png' %}" alt="Delete"></button>
+                                
+                                </div>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-links">
+        <h4><strong>Services</strong></h4>
+        <a href="#">UWM.edu</a>
+        <a href="#">PAWS</a>
+        <a href="#">PanthersConnect</a>
+    </div>
+
+    <img src="{% static 'Seal.png' %}" alt="UWM Seal" class="footer-logo"/>
+</footer>
+
+</body>
+</html>

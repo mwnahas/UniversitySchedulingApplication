@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+{% if request.user.role == 'admin' %}
+  <title>Profile Manager</title>
+{% else %}
+  <title>Profiles</title>
+{% endif %}
+  <link rel="stylesheet" href="{% static 'Style.css' %}">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="header-left">
+        <img src="{% static 'UWM logo.png' %}" alt="UWM TA Scheduler" class="logo-left" />
+        <nav class="nav">
+          <a href="{% url 'home' %}"><img src="{% static 'Home.png' %}" alt="Home" /></a>
+          <a href="{% url 'user-list' %}"><img src="{% static 'Profiles.png' %}" alt="Profiles" /></a>
+          <a href="Courses.html"><img src="{% static 'Courses.png' %}" alt="Courses" /></a>
+        </nav>
+      </div>
+
+      <div class="pfp-wrapper">
+        <a href="#" class="pfp-link">
+          <img src="{% static 'pfp.png' %}" alt="Profile Picture" />
+        </a>
+        <div class="dropdown">
+          <a href="https://outlook.live.com/mail/0/">New Notification</a>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'user-edit' request.user.pk %}">Edit My Profile</a>
+        {% endif %}
+
+<a href="{% url 'private_profile' request.user.username %}">View Private Profile</a>
+          <form method ="post" action = "{% url 'logout' %}">
+            {% csrf_token %}
+            <button type = "submit" class ="logout">Logout</button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <div class="welcome">Profile Manager</div>
+    <div class="divider"></div>
+
+    <div class="main-container">
+    {% if request.user.role == 'admin' %}
+      <h3>A page dedicated to creating, updating and deleting user credentials. Scroll for more users.</h3>
+    {% else %}
+      <h3>A page displaying all users and their information.</h3>
+    {% endif %}
+
+      <div class="update-item header-row">
+      <strong>Name (A-Z)</strong>
+      <strong>Email</strong>
+      <strong>Role</strong>
+          <strong>Bio</strong>
+    {% if request.user.role == "admin" %}
+      <a href="{% url 'user-create' %}">
+          <button class="new-user-btn">New User +</button>
+      </a>
+    {% endif %}
+      </div>
+
+
+      <div class="scroll-container" style="max-height: 390px; overflow-y: auto; scrollbar-width: none;">
+  <style>
+    .scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+    .update-item {
+      display: grid;
+      grid-template-columns: 200px 280px 200px auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background-color: #3f3f3f;
+      border-radius: 40px;
+      margin-bottom: 12px;
+      color: #ccc;
+    }
+
+    .update-item strong {
+      color: white;
+    }
+
+    .new-user-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: #f4c430;
+      color: black;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .delete-btn {
+      background-color: #d14e4e;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    .role-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .admin { background-color: rebeccapurple; }
+    .instructor { background-color: lawngreen; }
+    .ta { background-color: white; }
+  </style>
+
+  {% for user in users %}
+    <div class="update-item">
+      <span>
+        <img src="{% static 'pfp.png' %}" alt="Icon" style="width: 30px; margin-right: 10px; vertical-align: middle;">
+        {{ user.full_name }}
+      </span>
+      <span>{{ user.email }}</span>
+        <span style="padding-left: 30px;">
+            <span class="role-dot {{ user.role }}"></span> {{ user.role|title }}
+        </span>
+
+      <span>
+        <a href="{% url 'user-view' user.id %}">
+          <button class="edit-btn">View</button>
+        </a>
+      {% if request.user.role == "admin" %}
+        <a href="{% url 'user-edit' user.id %}">
+          <button class="edit-btn">Edit</button>
+        </a>
+        <a href="{% url 'user-confirm-delete' user.id %}">
+          <button class="delete-btn">
+            <img src="{% static 'trash.png' %}" alt="Delete" style="width: 16px;" />
+          </button>
+        </a>
+      {% endif %}
+      </span>
+    </div>
+  {% endfor %}
+</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <h4><strong>Services</strong></h4>
+      <a href="#">UWM.edu</a>
+      <a href="#">PAWS</a>
+      <a href="#">PanthersConnect</a>
+    </div>
+
+    <img src="{% static 'Seal.png' %}" alt="UWM Seal" class="footer-logo" />
+  </footer>
+</body>
+</html>

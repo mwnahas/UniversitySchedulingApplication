@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Milwaukee TA Scheduler</title>
+  <link rel="stylesheet" href="{% static 'Style.css' %}">
+</head>
+
+<body>
+  <main>
+    <header>
+      <div class="header-left">
+        <img src="{% static 'UWM logo.png' %}" alt="UWM TA Scheduler" class="logo-left" />
+        <nav class="nav">
+          <a href="Home.html"><img src="{% static 'Home.png' %}" alt="Home" /></a>
+          <a href="{% url 'user-list' %}"><img src="{% static 'Profiles.png' %}" alt="Profiles" /></a>
+          <a href="Courses.html"><img src="{% static 'Courses.png' %}" alt="Courses" /></a>
+        </nav>
+      </div>
+
+      <div class="pfp-wrapper">
+        <a href="#" class="pfp-link">
+          <img src="{% static 'pfp.png' %}" alt="Profile Picture" />
+        </a>
+        <div class="dropdown">
+          <a href="https://outlook.live.com/mail/0/">New Notification</a>
+          <a href="EditMyProfile.html">Edit My Profile</a>
+          <form method ="post" action = "{% url 'logout' %}">
+            {% csrf_token %}
+            <button type = "submit" class ="logout">Logout</button>
+
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <div class="welcome">
+      Welcome back, Panther.
+    </div>
+    <div class="divider"></div>
+
+    <section class="main-container">
+      <p> This is The template of home and will NOT be used in the projects functionality</p>
+
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <h4><strong>Services</strong></h4>
+      <a href="#">UWM.edu</a>
+      <a href="#">PAWS</a>
+      <a href="#">PanthersConnect</a>
+    </div>
+
+    <img src="{% static 'Seal.png' %}" alt="UWM Seal" class="footer-logo" />
+  </footer>
+
+</body>
+</html>

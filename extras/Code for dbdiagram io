@@ -1,0 +1,54 @@
+Table User {
+  id integer [primary key]
+  username varchar
+  full_name varchar
+  role varchar
+}
+
+Table PublicProfile {
+  id integer [primary key]
+  user_id integer [unique, ref: > User.id]
+  email varchar
+  office_location varchar
+  office_hours varchar
+  bio text
+}
+
+Table PrivateProfile {
+  id integer [primary key]
+  user_id integer [unique, ref: > User.id]
+  home_address varchar
+  phone_number varchar
+  emergency_contact varchar
+}
+
+Table Course {
+  id integer [primary key]
+  courseName varchar
+  semester varchar
+  year integer
+}
+
+Table Section {
+  id integer [primary key]
+  sectionName varchar
+  dayOfWeek varchar
+  dayOfWeek2 varchar
+  course_id integer [ref: > Course.id]
+  teaching_assistant_id integer [ref: > User.id]
+  instructor_id integer [ref: > User.id]
+  timeOfDay time
+  endOfDay time
+}
+
+Table CourseInstructor {
+  id integer [primary key]
+  course_id integer [ref: > Course.id]
+  instructor_id integer [ref: > User.id]
+}
+
+Table SectionTA {
+  id integer [primary key]
+  section_id integer [ref: > Section.id]
+  ta_id integer [ref: > User.id]
+}

@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.courseName }} - Course Details</title>
+    <link rel="stylesheet" href="{% static 'Style.css' %}">
+</head>
+<body>
+<header>
+    <h1>Course Details</h1>
+
+
+    <div class="back-button">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="back-button">Back To Courses</button>
+        </form>
+    </div>
+
+
+</header>
+
+<main>
+    <section class="course-info">
+        <h2>{{ course.courseName }}</h2>
+        <h2>Sections</h2>
+        <div class="divider"></div>
+        {% if request.user.role|lower|cut:" " == "admin" %}
+            <div class="Sections">
+
+                <label for="popup-toggle" class="popup-button">Add Sections</label>
+            </div>
+
+
+            <input type="checkbox" id="popup-toggle" class="popup-checkbox" hidden/>
+
+            <div class="popup-screen">
+                <div class="popup-content">
+                    <label for="popup-toggle" class="close-popup">&times;</label>
+                    <h2>Add a Section</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <label>
+                            <input type="text" name="section_name" placeholder="Section Name" required/>
+                        </label>
+                        <label>Start Time
+                            <input type="time" name="start_time" id="start_time" placeholder="Start Time" required>
+                        </label>
+                        <label>End Time
+                            <input type="time" name="end_time" id="end_time" placeholder="End Time" required>
+                        </label>
+                        <label>
+                            <select name="teacher" required>
+                                <option value="" disabled selected>Select Teacher</option>
+                                {% for user in users %}
+                                    <option value="{{ user.id }}">{{ user.full_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                        <label>
+                            <select name="day1" id="day1" required>
+                                <option value="" disabled selected>Day of Week</option>
+                                {% for value, label in DAYS_OF_WEEK %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+
+                        <label>
+                            <select name="day2" id="day2">
+                                <option value="" selected>Optional Day of Week</option>
+                                {% for value, label in DAYS_OF_WEEK %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        {% endif %}
+        <div class="sections-container">
+            {% if request.user.role|lower|cut:" " == "admin" %}
+                {% for section in sections %}
+                    <div class="section-wrapper">
+
+                        <label for="edit-popup-toggle-{{ section.id }}" class="section-box">
+                            {{ section.sectionName }}<br>
+                            {{ section.get_dayOfWeek_display }}{% if section.get_dayOfWeek2_display %} -
+                                {{ section.get_dayOfWeek2_display }}{% endif %}<br>
+                            Time: {{ section.timeOfDay }} - {{ section.endOfDay }}<br>
+                            {% if section.teaching_assistant %}TA: {{ section.teaching_assistant }}{% endif %}
+                            {% if section.instructor %}Instructor: {{ section.instructor }}{% endif %}
+                        </label>
+
+
+                        <input type="checkbox" id="edit-popup-toggle-{{ section.id }}" class="popup-checkbox" hidden>
+
+                        <div class="popup-screen">
+                            <div class="popup-content">
+                                <label for="edit-popup-toggle-{{ section.id }}" class="close-popup">&times;</label>
+                                <h2>Edit Section</h2>
+
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="edit_section_id" value="{{ section.id }}">
+
+                                    <label>Section Name:</label>
+                                    <input type="text" name="section_name" value="{{ section.sectionName }}" required>
+
+                                    <label>Day of Week:</label>
+                                    <select name="day1" required>
+                                        {% for value, label in DAYS_OF_WEEK %}
+                                            <option value="{{ value }}"
+                                                    {% if section.dayOfWeek == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <label>Optional Day of Week:</label>
+                                    <select name="day2">
+                                        <option value="">None</option>
+                                        {% for value, label in DAYS_OF_WEEK %}
+                                            <option value="{{ value }}"
+                                                    {% if section.dayOfWeek2 == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <label>Start Time:</label>
+                                    <input type="time" name="start_time" value="{{ section.timeOfDay|time:'H:i' }}"
+                                           required>
+
+                                    <label>End Time:</label>
+                                    <input type="time" name="end_time" value="{{ section.endOfDay|time:'H:i' }}"
+                                           required>
+
+                                    <label>Teacher:</label>
+                                    <select name="teacher">
+                                        {% for user in users %}
+                                            <option value="{{ user.id }}"
+                                                    {% if section.teaching_assistant and section.teaching_assistant.id == user.id %}selected{% endif %}>{{ user.full_name }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <button type="submit" name="edit_section">Save Changes</button>
+                                </form>
+
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <br>
+                                    <input type="hidden" name="delete_section" value="{{ section.id }}">
+                                    <button type="submit">Delete Section</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for section in sections %}
+                    <div class="section-box">
+                        {{ section.sectionName }}<br>
+                        {{ section.get_dayOfWeek_display }} - {{ section.get_dayOfWeek2_display }}<br>
+                        Time: {{ section.timeOfDay }} - {{ section.endOfDay }}<br>
+                        {% if section.teaching_assistant %}TA: {{ section.teaching_assistant }}{% endif %}
+                        {% if section.instructor %}Instructor: {{ section.instructor }}{% endif %}
+                    </div>
+                    <br>
+                {% empty %}
+                    <li>No sections created yet.</li>
+                {% endfor %}
+            {% endif %}
+
+    </section>
+
+    <section class="additional-info">
+
+
+    </section>
+</main>
+
+
+</body>
+</html>

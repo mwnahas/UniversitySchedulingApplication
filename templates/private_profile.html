@@ -1,0 +1,25 @@
+<!-- private_profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Private Profile</title>
+</head>
+<body>
+    <h1>Private Profile</h1>
+
+    <h2>{{ profile.user.full_name }}</h2>
+    <p>Bio: {{ profile.user.bio }}</p>
+
+    <h3>Your profile details:</h3>
+    <ul>
+        <li>Full Name: {{ profile.user.full_name }}</li>
+        <li>Role: {{ profile.user.role }}</li>
+        <li>Bio: {{ profile.user.bio }}</li>
+        <li>Home Address: {{ profile.home_address }}</li>
+        <li>Phone Number: {{ profile.phone_number }}</li>
+        <li>Emergency Contact: {{ profile.emergency_contact }}</li>
+    </ul>
+</body>
+</html>
+
